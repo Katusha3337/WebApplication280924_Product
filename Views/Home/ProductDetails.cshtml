@@ -1,0 +1,52 @@
+﻿@using WebApplication280924_Product.Helpers
+@using WebApplication280924_Product.ViewModels
+
+@model ProductDetailsViewModel
+
+<h2>@Model.Product.Name</h2>
+<p>@Model.Product.Description</p>
+<p>Средняя оценка: @Model.AverageRating</p>
+
+<h3>Отзывы</h3>
+@if (Model.Reviews.Any())
+{
+    @foreach (var review in Model.Reviews)
+    {
+        <div>
+            <p>Оценка: @review.Rating</p>
+            <p>Отзыв: @review.Comment</p>
+            <p>Автор: @review.UserName</p>
+            <p>Дата: @review.Date.ToShortDateString()</p>
+        </div>
+    }
+}
+else
+{
+    <p>Отзывов пока нет.</p>
+}
+
+<h3>Оставить отзыв</h3>
+<form method="post" action="~/Home/SubmitReview">
+    <input type="hidden" name="ProductId" value="@Model.Product.Id" />
+    <p>
+        <label>Имя пользователя</label><br />
+        <input type="text" name="UserName" required />
+    </p>
+    <p>
+        <label>Оценка</label><br />
+        <select name="Rating" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </p>
+    <p>
+        <label>Отзыв</label><br />
+        <textarea name="Comment" required></textarea>
+    </p>
+    <p>
+        <input type="submit" value="Отправить" />
+    </p>
+</form>
